@@ -33,6 +33,7 @@ const Login = () => {
 
 		try {
 			await googleSignIn();
+			navigate('/Homepage');
 		} catch (error) {
 			setError(error.message);
 		}

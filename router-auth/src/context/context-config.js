@@ -1,7 +1,7 @@
 // React
 import { createContext, useContext, useState, useEffect } from 'react';
 // Firebase
-import { auth } from '../firebase/firebase-config';
+import { authApp } from '../firebase/firebase-config';
 import {
 	createUserWithEmailAndPassword,
 	signOut,
@@ -11,30 +11,32 @@ import {
 	signInWithPopup,
 } from 'firebase/auth';
 
+import { db } from '../firebase/firebase-config';
+
 export const ContextVariable = createContext();
 
 export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState({});
 
 	const logIn = (email, password) => {
-		return signInWithEmailAndPassword(auth, email, password);
+		return signInWithEmailAndPassword(authApp, email, password);
 	};
 
-	const createAccount = (email, password) => {
-		return createUserWithEmailAndPassword(auth, email, password);
+	const createAccount = async (email, password) => {
+		return createUserWithEmailAndPassword(authApp, email, password);
 	};
 
 	const logOut = () => {
-		return signOut(auth);
+		return signOut(authApp);
 	};
 
 	const googleSignIn = () => {
 		const googleAuthProvider = new GoogleAuthProvider();
-		return signInWithPopup(auth, googleAuthProvider);
+		return signInWithPopup(authApp, googleAuthProvider);
 	};
 
 	useEffect(() => {
-		const onMountChange = onAuthStateChanged(auth, (currentUser) => {
+		const onMountChange = onAuthStateChanged(authApp, (currentUser) => {
 			console.log('Auth', currentUser);
 			setUser(currentUser);
 		});

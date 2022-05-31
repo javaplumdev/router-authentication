@@ -17,6 +17,7 @@ const SignupComponent = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
 		setError('');
 
 		try {
