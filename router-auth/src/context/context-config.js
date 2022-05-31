@@ -10,7 +10,7 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 } from 'firebase/auth';
-
+import { Firestore } from '@firebase/firestore';
 import { db } from '../firebase/firebase-config';
 
 export const ContextVariable = createContext();
@@ -23,6 +23,14 @@ export const ContextProvider = ({ children }) => {
 	};
 
 	const createAccount = async (email, password) => {
+		// fireStoreProvider.collection('users').doc(authApp.currentUser.uid).set({
+		// 	email: email,
+		// });
+
+		db.collection('users').doc(authApp.currentUser.uid).set({
+			email: email,
+		});
+
 		return createUserWithEmailAndPassword(authApp, email, password);
 	};
 
