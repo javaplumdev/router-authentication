@@ -10,22 +10,25 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 } from 'firebase/auth';
-import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 
 export const ContextVariable = createContext();
 
 export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState({});
-	const usersCollectionRef = collection(db, 'users');
-	console.log(usersCollectionRef);
+	const [userDetails, setUserDetails] = useState({});
+
 	const logIn = (email, password) => {
 		return signInWithEmailAndPassword(authApp, email, password);
 	};
 
-	const createAccount = async (email, password) => {
-		await addDoc(usersCollectionRef, { email: email, password: password });
-
+	const createAccount = (email, password, radioValue) => {
+		setUserDetails({
+			email: email,
+			password: password,
+			radioValue: radioValue,
+		});
 		return createUserWithEmailAndPassword(authApp, email, password);
 	};
 
@@ -40,7 +43,11 @@ export const ContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const onMountChange = onAuthStateChanged(authApp, (currentUser) => {
-			console.log('Auth', currentUser);
+			try {
+				connectUID(currentUser.uid, currentUser.email);
+			} catch (e) {
+				console.log(e.message);
+			}
 			setUser(currentUser);
 		});
 
@@ -48,6 +55,18 @@ export const ContextProvider = ({ children }) => {
 			onMountChange();
 		};
 	});
+
+	const connectUID = async (uid, email) => {
+		try {
+			await setDoc(doc(db, 'users', uid), {
+				email: email,
+				password: userDetails.password,
+				radioValue: userDetails.radioValue,
+			});
+		} catch (e) {
+			console.log('Data not yet filled');
+		}
+	};
 
 	return (
 		<ContextVariable.Provider
