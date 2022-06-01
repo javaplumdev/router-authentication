@@ -20,9 +20,13 @@ const Login = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError('');
+
 		try {
 			await logIn(email, password);
+
 			navigate('/Homepage');
+
+			window.location.reload();
 		} catch (err) {
 			setError(err.message);
 		}
