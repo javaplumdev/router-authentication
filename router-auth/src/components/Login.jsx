@@ -1,7 +1,5 @@
 // React
-import React, { useState, useContext } from 'react';
-// Google Button
-import GoogleButton from 'react-google-button';
+import React, { useState, useEffect } from 'react';
 // Bootstrap
 import { Button } from 'react-bootstrap';
 import { Alert, Form } from 'react-bootstrap';
@@ -14,7 +12,7 @@ const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const { logIn, googleSignIn } = useUserAuth();
+	const { logIn } = useUserAuth();
 	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {

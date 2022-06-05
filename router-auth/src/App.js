@@ -9,6 +9,8 @@ import Login from './components/Login';
 import SignupComponent from './components/SignupComponent';
 import StudentHomePage from './components/student page/StudentHomePage';
 import TeachersHomePage from './components/teachers page/TeachersHomePage';
+// Teacher Component
+import TeacherProfile from './components/teachers page/TeachersProfile';
 // Protected Route
 import ProtectedRoute from './components/ProtectedRoute';
 // Context
@@ -60,6 +62,14 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<TeachersHomePage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/TeacherProfile"
+							element={
+								<ProtectedRoute>
+									<TeacherProfile />
 								</ProtectedRoute>
 							}
 						/>

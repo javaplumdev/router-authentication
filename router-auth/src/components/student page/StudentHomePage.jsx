@@ -34,7 +34,7 @@ const StudentHomePage = () => {
 
 			<Container>
 				<p>{user && user.email}</p>
-				<p>{user.radioValue === '1' ? 'Teacher' : 'Student'}</p>
+
 				{userContainer.map((item) => {
 					return (
 						<div key={item.id}>
