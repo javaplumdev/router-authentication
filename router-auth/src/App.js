@@ -11,8 +11,6 @@ import StudentHomePage from './components/student page/StudentHomePage';
 import TeachersHomePage from './components/teachers page/TeachersHomePage';
 // Protected Route
 import ProtectedRoute from './components/ProtectedRoute';
-// Bootstrap
-import { Container } from 'react-bootstrap';
 // Context
 import { ContextProvider } from './context/context-config';
 // Router
@@ -22,38 +20,51 @@ function App() {
 	return (
 		<Router>
 			<ContextProvider>
-				<Container>
-					<div className="App">
-						<Routes>
-							<Route path="/" element={<Login />} />
-							<Route
-								path="/Homepage"
-								element={
-									<ProtectedRoute>
-										<Homepage />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path="/StudentHomePage"
-								element={
-									<ProtectedRoute>
-										<StudentHomePage />
-									</ProtectedRoute>
-								}
-							/>
-							<Route
-								path="/TeachersHomePage"
-								element={
-									<ProtectedRoute>
-										<TeachersHomePage />
-									</ProtectedRoute>
-								}
-							/>
-							<Route path="/SignupComponent" element={<SignupComponent />} />
-						</Routes>
-					</div>
-				</Container>
+				<div className="App">
+					<Routes>
+						<Route
+							path="/"
+							element={
+								<div className="authForm">
+									<Login />
+								</div>
+							}
+						/>
+						<Route
+							path="/SignupComponent"
+							element={
+								<div className="authForm">
+									<SignupComponent />
+								</div>
+							}
+						/>
+
+						<Route
+							path="/Homepage"
+							element={
+								<ProtectedRoute>
+									<Homepage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/StudentHomePage"
+							element={
+								<ProtectedRoute>
+									<StudentHomePage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/TeachersHomePage"
+							element={
+								<ProtectedRoute>
+									<TeachersHomePage />
+								</ProtectedRoute>
+							}
+						/>
+					</Routes>
+				</div>
 			</ContextProvider>
 		</Router>
 	);

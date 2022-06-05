@@ -35,7 +35,7 @@ const SignupComponent = () => {
 	};
 
 	return (
-		<div className="bg-light p-3 rounded shadow-lg" style={{ width: 320 }}>
+		<div className=" bg-light p-3 rounded shadow-lg" style={{ width: 320 }}>
 			<h2 className="text-center">Registration</h2>
 			{error && <Alert variant="danger">{error}</Alert>}
 

@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react';
 // React router DOM
 import { useNavigate } from 'react-router-dom';
 // Bootstrap
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
+// Components
+import TeachersNavbar from './TeachersNavbar';
 
 const TeachersHomePage = () => {
 	const { logOut, user, userInfo } = useUserAuth();
@@ -28,20 +30,22 @@ const TeachersHomePage = () => {
 
 	return (
 		<>
-			<p>Homepage</p>
+			<TeachersNavbar />
 
-			<br></br>
-			<p>{user && user.email}</p>
-			{userContainer.map((item) => {
-				return (
-					<div key={item.id}>
-						<p>{item.password}</p>
-					</div>
-				);
-			})}
-			<Button variant="primary" onClick={handleLogout}>
-				Log out
-			</Button>
+			<Container>
+				<p>{user && user.email}</p>
+				<p>{user.radioValue === '1' ? 'Teacher' : 'Student'}</p>
+				{userContainer.map((item) => {
+					return (
+						<div key={item.id}>
+							<p>{item.password}</p>
+						</div>
+					);
+				})}
+				<Button variant="primary" onClick={handleLogout}>
+					Log out
+				</Button>
+			</Container>
 		</>
 	);
 };

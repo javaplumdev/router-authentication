@@ -32,19 +32,8 @@ const Login = () => {
 		}
 	};
 
-	const handleGoogleSignIn = async (e) => {
-		e.preventDefault();
-
-		try {
-			await googleSignIn();
-			navigate('/Homepage');
-		} catch (error) {
-			setError(error.message);
-		}
-	};
-
 	return (
-		<div className="bg-light p-3 rounded shadow-lg" style={{ width: 320 }}>
+		<div className=" bg-light p-3 rounded shadow-lg" style={{ width: 320 }}>
 			<h2 className="text-center">Log in page</h2>
 			{error && <Alert variant="danger">{error}</Alert>}
 			<Form onSubmit={handleSubmit}>
@@ -70,13 +59,7 @@ const Login = () => {
 			</Form>
 
 			<hr></hr>
-			<div>
-				<GoogleButton
-					className="g-btn w-100 my-3"
-					type="dark"
-					onClick={handleGoogleSignIn}
-				/>
-			</div>
+
 			<p className="text-center">
 				Don't have account? <Link to="/SignupComponent">Sign up</Link>
 			</p>
