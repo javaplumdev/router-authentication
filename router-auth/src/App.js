@@ -11,18 +11,22 @@ import StudentHomePage from './components/student page/StudentHomePage';
 import TeachersHomePage from './components/teachers page/TeachersHomePage';
 // Teacher Component
 import TeacherProfile from './components/teachers page/TeachersProfile';
+import TeachersNavbar from './components/teachers page/TeachersNavbar';
 // Protected Route
 import ProtectedRoute from './components/ProtectedRoute';
 // Context
 import { ContextProvider } from './context/context-config';
 // Router
 import { BrowserRouter as Router } from 'react-router-dom';
+// React toast
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 	return (
 		<Router>
 			<ContextProvider>
 				<div className="App">
+					<Toaster />
 					<Routes>
 						<Route
 							path="/"

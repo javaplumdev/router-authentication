@@ -12,6 +12,8 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
+// UUID
+import { v4 as uuidv4 } from 'uuid';
 
 export const ContextVariable = createContext();
 
@@ -42,9 +44,6 @@ export const ContextProvider = ({ children }) => {
 		const googleAuthProvider = new GoogleAuthProvider();
 		return signInWithPopup(authApp, googleAuthProvider);
 	};
-
-	// Showing user datas
-	const usersCollectionRef = collection(db, 'users');
 
 	useEffect(() => {
 		const onMountChange = onAuthStateChanged(authApp, (currentUser) => {
@@ -81,8 +80,24 @@ export const ContextProvider = ({ children }) => {
 				radioValue: userDetails.radioValue,
 			});
 		} catch (e) {
-			console.log('Data not yet filled');
+			console.log(e);
 		}
+	};
+
+	// Showing user datas
+	const usersCollectionRef = collection(db, 'users');
+
+	const [subjectName, setSubjectName] = useState('');
+	const [subjectCode, setSubjectCode] = useState(null);
+
+	const generateSubjectCode = () => {
+		setSubjectCode(Math.floor(Math.random() * 1000000000));
+	};
+
+	const addSubject = () => {
+		console.log(uuidv4());
+		console.log(subjectName);
+		console.log(subjectCode);
 	};
 
 	return (
@@ -95,6 +110,11 @@ export const ContextProvider = ({ children }) => {
 				googleSignIn,
 				userInfo,
 				currentUserUID,
+				addSubject,
+				generateSubjectCode,
+				setSubjectName,
+				subjectCode,
+				setSubjectCode,
 			}}
 		>
 			{children}

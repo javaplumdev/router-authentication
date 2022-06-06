@@ -4,6 +4,8 @@ import { useUserAuth } from '../../context/context-config';
 import { useState, useEffect } from 'react';
 // React bootstrap
 import { Container } from 'react-bootstrap';
+// Component
+import TeachersNavbar from './TeachersNavbar';
 
 const TeacherProfile = () => {
 	const { user, userInfo } = useUserAuth();
@@ -16,6 +18,7 @@ const TeacherProfile = () => {
 
 	return (
 		<>
+			<TeachersNavbar />
 			<Container>
 				<p>{user && user.email}</p>
 				{userContainer.map((item) => {

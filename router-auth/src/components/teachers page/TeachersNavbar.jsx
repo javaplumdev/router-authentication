@@ -24,9 +24,7 @@ const TeachersNavbar = () => {
 	return (
 		<Navbar bg="light" expand="lg">
 			<Container>
-				<Navbar.Brand href="#home">
-					<Link to="/TeachersHomePage">Teacher Portal</Link>
-				</Navbar.Brand>
+				<Link to="/TeachersHomePage">Teacher Portal</Link>
 				<div className="mr-auto">
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
@@ -37,12 +35,7 @@ const TeachersNavbar = () => {
 							>
 								Profile
 							</Link>
-							<Link
-								to="/TeacherProfile"
-								className="text-decoration-none text-black mx-3"
-							>
-								Profile
-							</Link>
+
 							<Button
 								variant="outline-primary"
 								size="sm"
