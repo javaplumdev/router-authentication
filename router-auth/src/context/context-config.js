@@ -14,6 +14,8 @@ import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 // UUID
 import { v4 as uuidv4 } from 'uuid';
+// React toast
+import { toast } from 'react-hot-toast';
 
 export const ContextVariable = createContext();
 
@@ -47,13 +49,13 @@ export const ContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		const onMountChange = onAuthStateChanged(authApp, (currentUser) => {
-			try {
+			if (currentUser === null) {
+				return true;
+			} else {
 				connectUID(currentUser.uid, currentUser.email);
 				setCurrentUserUID(currentUser.uid);
-			} catch (e) {
-				console.log(e.message);
+				setUser(currentUser);
 			}
-			setUser(currentUser);
 		});
 
 		return () => {
@@ -72,15 +74,17 @@ export const ContextProvider = ({ children }) => {
 	}, []);
 
 	const connectUID = async (uid, email) => {
-		try {
+		if (
+			userDetails.password === undefined &&
+			userDetails.radioValue === undefined
+		) {
+		} else {
 			await setDoc(doc(db, 'users', uid), {
 				id: uid,
 				email: email,
 				password: userDetails.password,
 				radioValue: userDetails.radioValue,
 			});
-		} catch (e) {
-			console.log(e);
 		}
 	};
 
@@ -90,14 +94,46 @@ export const ContextProvider = ({ children }) => {
 	const [subjectName, setSubjectName] = useState('');
 	const [subjectCode, setSubjectCode] = useState(null);
 
+	const [userContainer, setUserContainer] = useState([]);
+
+	useEffect(() => {
+		setUserContainer(userInfo.filter((doc) => doc.id === user.uid));
+	}, [userInfo]);
+
 	const generateSubjectCode = () => {
 		setSubjectCode(Math.floor(Math.random() * 1000000000));
+
+		// userContainer.map((item) => {
+		// 	return item.subjects.map((item) => {
+		// 		if (item.subjectCode !== subjectCode) {
+		// 			setSubjectCode(Math.floor(Math.random() * 1000000000));
+		// 		} else {
+		// 			setSubjectCode(Math.floor(Math.random() * 1000000000));
+		// 		}
+		// 	});
+		// });
 	};
 
-	const addSubject = () => {
-		console.log(uuidv4());
-		console.log(subjectName);
-		console.log(subjectCode);
+	const [subjectInfo, setSubjectInfo] = useState([]);
+	const addSubject = async () => {
+		const usersRef = doc(db, 'users', currentUserUID);
+
+		setDoc(
+			usersRef,
+			{
+				subjects: {
+					subjectID: uuidv4(),
+					subjectName: subjectName,
+					subjectCode: subjectCode,
+					studentsEnrolled: [],
+					activities: [],
+					assignments: [],
+				},
+			},
+			{ merge: true }
+		);
+
+		toast.success('Subject successfully added');
 	};
 
 	return (

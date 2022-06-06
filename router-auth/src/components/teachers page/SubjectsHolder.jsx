@@ -1,23 +1,26 @@
 // React hooks
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // React bootstrap
 import { Container, Button, Modal } from 'react-bootstrap';
-import { InputGroup, Form } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 // Context
 import { useUserAuth } from '../../context/context-config';
 
 const SubjectsHolder = () => {
-	const {
-		addSubject,
-		generateSubjectCode,
-		setSubjectName,
-		subjectCode,
-		setSubjectCode,
-	} = useUserAuth();
+	const { addSubject, generateSubjectCode, setSubjectName, subjectCode } =
+		useUserAuth();
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
 	const handleShow = () => setShow(true);
+
+	const { user, userInfo } = useUserAuth();
+
+	const [userContainer, setUserContainer] = useState([]);
+
+	useEffect(() => {
+		setUserContainer(userInfo.filter((doc) => doc.id === user.uid));
+	}, [userInfo]);
 
 	return (
 		<div className="mt-3">
@@ -28,12 +31,21 @@ const SubjectsHolder = () => {
 						Add class
 					</Button>
 				</div>
-				<div className="p-3 mt-3 rounded bg-light ">
-					<p>Subject Name</p>
-					<small>10 Lessons</small>
-					<small className="mx-2">2 Assignments</small>
-					<small>256 Enrolled</small>
-				</div>
+
+				{/* {userContainer.map((item) => {
+					return item.subjects.map((item) => {
+						return (
+							<div className="p-3 mt-3 rounded bg-light" key={item.subjectID}>
+								<p>{item.subjectName}</p>
+								<small>{item.studentsEnrolled.length} Activities</small>
+								<small className="mx-2">
+									{item.studentsEnrolled.length} Assignments
+								</small>
+								<small>{item.studentsEnrolled.length} Enrolled</small>
+							</div>
+						);
+					});
+				})} */}
 			</Container>
 
 			{/* Modal */}
@@ -63,7 +75,7 @@ const SubjectsHolder = () => {
 					<Button variant="outline-danger" onClick={handleClose}>
 						Close
 					</Button>
-					<Button variant="primary" onClick={addSubject}>
+					<Button variant="primary" onClick={() => addSubject()}>
 						Add
 					</Button>
 				</Modal.Footer>
