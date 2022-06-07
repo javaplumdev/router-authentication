@@ -114,11 +114,10 @@ export const ContextProvider = ({ children }) => {
 		// });
 	};
 
-	const [subjectInfo, setSubjectInfo] = useState([]);
 	const addSubject = async () => {
 		const usersRef = doc(db, 'users', currentUserUID);
 
-		setDoc(
+		await setDoc(
 			usersRef,
 			{
 				subjects: {
