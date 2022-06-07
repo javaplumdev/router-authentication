@@ -10,7 +10,16 @@ import {
 	GoogleAuthProvider,
 	signInWithPopup,
 } from 'firebase/auth';
-import { doc, setDoc, collection, getDocs } from 'firebase/firestore';
+import {
+	doc,
+	setDoc,
+	collection,
+	getDocs,
+	updateDoc,
+	arrayUnion,
+	Timestamp,
+	onSnapshot,
+} from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 // UUID
 import { v4 as uuidv4 } from 'uuid';
@@ -63,6 +72,9 @@ export const ContextProvider = ({ children }) => {
 		};
 	});
 
+	// Showing user datas
+	const usersCollectionRef = collection(db, 'users');
+
 	useEffect(() => {
 		const getUsers = async () => {
 			const data = await getDocs(usersCollectionRef);
@@ -88,9 +100,6 @@ export const ContextProvider = ({ children }) => {
 		}
 	};
 
-	// Showing user datas
-	const usersCollectionRef = collection(db, 'users');
-
 	const [subjectName, setSubjectName] = useState('');
 	const [subjectCode, setSubjectCode] = useState(null);
 
@@ -100,34 +109,33 @@ export const ContextProvider = ({ children }) => {
 		setUserContainer(userInfo.filter((doc) => doc.id === user.uid));
 	}, [userInfo]);
 
+	if (currentUserUID) {
+		onSnapshot(doc(usersCollectionRef, currentUserUID), (doc) => {
+			console.log('Current data: ', doc.data());
+		});
+	}
+
 	const generateSubjectCode = () => {
 		setSubjectCode(Math.floor(Math.random() * 1000000000));
-
-		// userContainer.map((item) => {
-		// 	return item.subjects.map((item) => {
-		// 		if (item.subjectCode !== subjectCode) {
-		// 			setSubjectCode(Math.floor(Math.random() * 1000000000));
-		// 		} else {
-		// 			setSubjectCode(Math.floor(Math.random() * 1000000000));
-		// 		}
-		// 	});
-		// });
 	};
 
 	const addSubject = async () => {
 		const usersRef = doc(db, 'users', currentUserUID);
 
-		await setDoc(
+		const created_at = Timestamp.now();
+
+		await updateDoc(
 			usersRef,
 			{
-				subjects: {
+				subjects: arrayUnion({
 					subjectID: uuidv4(),
 					subjectName: subjectName,
 					subjectCode: subjectCode,
 					studentsEnrolled: [],
 					activities: [],
 					assignments: [],
-				},
+					createdAt: created_at,
+				}),
 			},
 			{ merge: true }
 		);

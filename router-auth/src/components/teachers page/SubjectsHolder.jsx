@@ -32,7 +32,7 @@ const SubjectsHolder = () => {
 					</Button>
 				</div>
 
-				{/* {userContainer.map((item) => {
+				{userContainer.map((item) => {
 					return item.subjects.map((item) => {
 						return (
 							<div className="p-3 mt-3 rounded bg-light" key={item.subjectID}>
@@ -45,7 +45,7 @@ const SubjectsHolder = () => {
 							</div>
 						);
 					});
-				})} */}
+				})}
 			</Container>
 
 			{/* Modal */}
