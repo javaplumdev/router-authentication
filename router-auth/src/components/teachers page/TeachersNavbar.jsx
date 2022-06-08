@@ -22,10 +22,12 @@ const TeachersNavbar = () => {
 	};
 
 	return (
-		<Navbar bg="light" expand="lg">
+		<Navbar bg="white" expand="lg">
 			<Container>
-				<Link to="/TeachersHomePage">Teacher Portal</Link>
-				<div className="mr-auto">
+				<Link to="/TeachersHomePage" className="text-decoration-none text-dark">
+					Teacher Portal
+				</Link>
+				<div className="mr-auto my-2">
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav>

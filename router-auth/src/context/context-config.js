@@ -129,7 +129,6 @@ export const ContextProvider = ({ children }) => {
 
 	const addSubject = async () => {
 		const usersRef = doc(db, 'users', currentUserUID);
-
 		const created_at = Timestamp.now();
 
 		if (subjectName === null || subjectCode === null) {
@@ -157,6 +156,27 @@ export const ContextProvider = ({ children }) => {
 			handleClose();
 		}
 	};
+
+	// const addQuestion = async () => {
+	// 	const usersRef = doc(db, 'users', currentUserUID);
+	// 	const created_at = Timestamp.now();
+
+	// 	await updateDoc(
+	// 		usersRef,
+	// 		{
+	// 			subjects: {
+	// 				subjectID: uuidv4(),
+	// 				subjectName: subjectName,
+	// 				subjectCode: subjectCode,
+	// 				studentsEnrolled: [],
+	// 				activities: arrayUnion({ name: 'hi' }),
+	// 				assignments: [],
+	// 				createdAt: created_at,
+	// 			},
+	// 		},
+	// 		{ merge: true }
+	// 	);
+	// };
 
 	return (
 		<ContextVariable.Provider

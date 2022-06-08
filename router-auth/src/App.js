@@ -12,6 +12,7 @@ import TeachersHomePage from './components/teachers page/TeachersHomePage';
 // Teacher Component
 import TeacherProfile from './components/teachers page/TeachersProfile';
 import SubjectPage from './components/teachers page/SubjectPage';
+import TaskCreate from './components/teachers page/TaskCreate';
 // Protected Route
 import ProtectedRoute from './components/ProtectedRoute';
 // Context
@@ -25,7 +26,7 @@ function App() {
 	return (
 		<Router>
 			<ContextProvider>
-				<div className="App">
+				<div className="App bg-light">
 					<Toaster />
 					<Routes>
 						<Route
@@ -44,7 +45,6 @@ function App() {
 								</div>
 							}
 						/>
-
 						<Route
 							path="/Homepage"
 							element={
@@ -82,6 +82,15 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<SubjectPage />
+								</ProtectedRoute>
+							}
+						/>
+						// TaskCreate
+						<Route
+							path="/taskcreate"
+							element={
+								<ProtectedRoute>
+									<TaskCreate />
 								</ProtectedRoute>
 							}
 						/>

@@ -30,24 +30,33 @@ const SubjectsHolder = () => {
 					</Button>
 				</div>
 
-				{subjects.map((item) => {
-					return (
-						<Link
-							to={`/subjectpage/${item.subjectID}`}
-							key={item.subjectID}
-							className="text-decoration-none text-black"
-						>
-							<div className="p-3 mt-3 rounded bg-light">
-								<h6>{item.subjectName}</h6>
-								<small>{item.studentsEnrolled.length} Activities</small>
-								<small className="mx-2">
-									{item.studentsEnrolled.length} Assignments
-								</small>
-								<small>{item.studentsEnrolled.length} Enrolled</small>
-							</div>
-						</Link>
-					);
-				})}
+				{subjects.length === 0 ? (
+					<div
+						className="d-flex justify-content-center align-items-center "
+						style={{ height: '70vh' }}
+					>
+						<h1 className="display-5 p-3">You haven't add subjects yet :(</h1>
+					</div>
+				) : (
+					subjects.map((item) => {
+						return (
+							<Link
+								to={`/subjectpage/${item.subjectID}`}
+								key={item.subjectID}
+								className="text-decoration-none text-black"
+							>
+								<div className="p-3 mt-3 rounded bg-white">
+									<h6>{item.subjectName}</h6>
+									<small>{item.studentsEnrolled.length} Activities</small>
+									<small className="mx-2">
+										{item.studentsEnrolled.length} Assignments
+									</small>
+									<small>{item.studentsEnrolled.length} Enrolled</small>
+								</div>
+							</Link>
+						);
+					})
+				)}
 			</Container>
 
 			{/* Modal */}

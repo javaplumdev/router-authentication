@@ -31,7 +31,7 @@ const Login = () => {
 	};
 
 	return (
-		<div className=" bg-light p-3 rounded shadow-lg" style={{ width: 320 }}>
+		<div className="p-3 rounded shadow-lg" style={{ width: 320 }}>
 			<h2 className="text-center">Log in page</h2>
 			{error && <Alert variant="danger">{error}</Alert>}
 			<Form onSubmit={handleSubmit}>
