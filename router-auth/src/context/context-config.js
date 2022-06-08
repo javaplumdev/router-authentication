@@ -159,7 +159,7 @@ export const ContextProvider = ({ children }) => {
 		}
 	};
 
-	const [questionInfo, setQuestionInfo] = useState({});
+	const [questionInfo, setQuestionInfo] = useState([]);
 
 	const addQuestion = async (id, activityName) => {
 		const usersRef = doc(db, 'users', currentUserUID);
@@ -170,12 +170,24 @@ export const ContextProvider = ({ children }) => {
 				questions: arrayUnion({
 					activityName: activityName,
 					subjectID: id,
-					name: questionInfo,
+					questionInfo: questionInfo,
 				}),
 			},
 			{ merge: true }
 		);
 	};
+
+	const [question, setQuestion] = useState([]);
+
+	useEffect(() => {
+		if (currentUserUID) {
+			onSnapshot(doc(usersCollectionRef, currentUserUID), (doc) => {
+				setQuestion(doc.data().questions.reverse());
+
+				console.log(doc.data().questions);
+			});
+		}
+	}, [doc]);
 
 	return (
 		<ContextVariable.Provider
@@ -199,6 +211,7 @@ export const ContextProvider = ({ children }) => {
 				setShow,
 				addQuestion,
 				setQuestionInfo,
+				question,
 			}}
 		>
 			{children}

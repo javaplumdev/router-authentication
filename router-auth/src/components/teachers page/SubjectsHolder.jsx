@@ -18,7 +18,10 @@ const SubjectsHolder = () => {
 		handleClose,
 		handleShow,
 		show,
+		question,
 	} = useUserAuth();
+
+	console.log(question);
 
 	return (
 		<div className="mt-3">
@@ -38,20 +41,20 @@ const SubjectsHolder = () => {
 						<h1 className="display-5 p-3">You haven't add subjects yet :(</h1>
 					</div>
 				) : (
-					subjects.map((item) => {
+					subjects.map((sub) => {
 						return (
 							<Link
-								to={`/subjectpage/${item.subjectID}`}
-								key={item.subjectID}
+								to={`/subjectpage/${sub.subjectID}`}
+								key={sub.subjectID}
 								className="text-decoration-none text-black"
 							>
 								<div className="p-3 mt-3 rounded bg-white">
-									<h6>{item.subjectName}</h6>
+									<h6>{sub.subjectName}</h6>
 									<small className="me-2">
-										{item.studentsEnrolled.length} Activities
+										{sub.studentsEnrolled.length} Activities
 									</small>
 
-									<small>{item.studentsEnrolled.length} Enrolled</small>
+									<small>{sub.studentsEnrolled.length} Enrolled</small>
 								</div>
 							</Link>
 						);
