@@ -1,5 +1,5 @@
 // React
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, lazy } from 'react';
 // Firebase
 import { authApp } from '../firebase/firebase-config';
 import {
@@ -33,6 +33,12 @@ export const ContextProvider = ({ children }) => {
 	const [userDetails, setUserDetails] = useState({});
 	const [userInfo, setUserInfo] = useState([]);
 	const [currentUserUID, setCurrentUserUID] = useState('');
+	const [subjects, setSubjects] = useState([]);
+
+	const [show, setShow] = useState(false);
+
+	const handleClose = () => setShow(false);
+	const handleShow = () => setShow(true);
 
 	const logIn = (email, password) => {
 		return signInWithEmailAndPassword(authApp, email, password);
@@ -109,11 +115,13 @@ export const ContextProvider = ({ children }) => {
 		setUserContainer(userInfo.filter((doc) => doc.id === user.uid));
 	}, [userInfo]);
 
-	if (currentUserUID) {
-		onSnapshot(doc(usersCollectionRef, currentUserUID), (doc) => {
-			console.log('Current data: ', doc.data());
-		});
-	}
+	useEffect(() => {
+		if (currentUserUID) {
+			onSnapshot(doc(usersCollectionRef, currentUserUID), (doc) => {
+				setSubjects(doc.data().subjects.reverse());
+			});
+		}
+	}, [userInfo]);
 
 	const generateSubjectCode = () => {
 		setSubjectCode(Math.floor(Math.random() * 1000000000));
@@ -124,23 +132,30 @@ export const ContextProvider = ({ children }) => {
 
 		const created_at = Timestamp.now();
 
-		await updateDoc(
-			usersRef,
-			{
-				subjects: arrayUnion({
-					subjectID: uuidv4(),
-					subjectName: subjectName,
-					subjectCode: subjectCode,
-					studentsEnrolled: [],
-					activities: [],
-					assignments: [],
-					createdAt: created_at,
-				}),
-			},
-			{ merge: true }
-		);
+		if (subjectName === null || subjectCode === null) {
+			toast.error('Enter some missing fields.');
+		} else {
+			await updateDoc(
+				usersRef,
+				{
+					subjects: arrayUnion({
+						subjectID: uuidv4(),
+						subjectName: subjectName,
+						subjectCode: subjectCode,
+						studentsEnrolled: [],
+						activities: [],
+						assignments: [],
+						createdAt: created_at,
+					}),
+				},
+				{ merge: true }
+			);
 
-		toast.success('Subject successfully added');
+			toast.success('Subject successfully added');
+			setSubjectName(null);
+			setSubjectCode(null);
+			handleClose();
+		}
 	};
 
 	return (
@@ -158,6 +173,11 @@ export const ContextProvider = ({ children }) => {
 				setSubjectName,
 				subjectCode,
 				setSubjectCode,
+				subjects,
+				handleClose,
+				handleShow,
+				show,
+				setShow,
 			}}
 		>
 			{children}

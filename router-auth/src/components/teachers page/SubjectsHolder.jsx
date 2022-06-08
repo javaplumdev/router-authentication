@@ -5,22 +5,20 @@ import { Container, Button, Modal } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
 // Context
 import { useUserAuth } from '../../context/context-config';
+// React router dom
+import { Link } from 'react-router-dom';
 
 const SubjectsHolder = () => {
-	const { addSubject, generateSubjectCode, setSubjectName, subjectCode } =
-		useUserAuth();
-	const [show, setShow] = useState(false);
-
-	const handleClose = () => setShow(false);
-	const handleShow = () => setShow(true);
-
-	const { user, userInfo } = useUserAuth();
-
-	const [userContainer, setUserContainer] = useState([]);
-
-	useEffect(() => {
-		setUserContainer(userInfo.filter((doc) => doc.id === user.uid));
-	}, [userInfo]);
+	const {
+		addSubject,
+		generateSubjectCode,
+		setSubjectName,
+		subjectCode,
+		subjects,
+		handleClose,
+		handleShow,
+		show,
+	} = useUserAuth();
 
 	return (
 		<div className="mt-3">
@@ -32,19 +30,23 @@ const SubjectsHolder = () => {
 					</Button>
 				</div>
 
-				{userContainer.map((item) => {
-					return item.subjects.map((item) => {
-						return (
-							<div className="p-3 mt-3 rounded bg-light" key={item.subjectID}>
-								<p>{item.subjectName}</p>
+				{subjects.map((item) => {
+					return (
+						<Link
+							to={`/subjectpage/${item.subjectID}`}
+							key={item.subjectID}
+							className="text-decoration-none text-black"
+						>
+							<div className="p-3 mt-3 rounded bg-light">
+								<h6>{item.subjectName}</h6>
 								<small>{item.studentsEnrolled.length} Activities</small>
 								<small className="mx-2">
 									{item.studentsEnrolled.length} Assignments
 								</small>
 								<small>{item.studentsEnrolled.length} Enrolled</small>
 							</div>
-						);
-					});
+						</Link>
+					);
 				})}
 			</Container>
 

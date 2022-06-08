@@ -11,7 +11,7 @@ import StudentHomePage from './components/student page/StudentHomePage';
 import TeachersHomePage from './components/teachers page/TeachersHomePage';
 // Teacher Component
 import TeacherProfile from './components/teachers page/TeachersProfile';
-import TeachersNavbar from './components/teachers page/TeachersNavbar';
+import SubjectPage from './components/teachers page/SubjectPage';
 // Protected Route
 import ProtectedRoute from './components/ProtectedRoute';
 // Context
@@ -74,6 +74,14 @@ function App() {
 							element={
 								<ProtectedRoute>
 									<TeacherProfile />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="/subjectpage/:id"
+							element={
+								<ProtectedRoute>
+									<SubjectPage />
 								</ProtectedRoute>
 							}
 						/>
