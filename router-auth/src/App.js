@@ -87,7 +87,7 @@ function App() {
 						/>
 						// TaskCreate
 						<Route
-							path="/taskcreate"
+							path="/taskcreate/:id"
 							element={
 								<ProtectedRoute>
 									<TaskCreate />

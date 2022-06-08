@@ -38,7 +38,7 @@ const SubjectPage = () => {
 											>
 												Post Lessons
 											</Button>
-											<Link to="/taskcreate">
+											<Link to={`/taskcreate/${item.subjectID}`}>
 												<Button>Add Task</Button>
 											</Link>
 										</div>

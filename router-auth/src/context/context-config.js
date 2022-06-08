@@ -1,5 +1,5 @@
 // React
-import { createContext, useContext, useState, useEffect, lazy } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 // Firebase
 import { authApp } from '../firebase/firebase-config';
 import {
@@ -19,6 +19,7 @@ import {
 	arrayUnion,
 	Timestamp,
 	onSnapshot,
+	addDoc,
 } from 'firebase/firestore';
 import { db } from '../firebase/firebase-config';
 // UUID
@@ -157,26 +158,25 @@ export const ContextProvider = ({ children }) => {
 		}
 	};
 
-	// const addQuestion = async () => {
-	// 	const usersRef = doc(db, 'users', currentUserUID);
-	// 	const created_at = Timestamp.now();
+	const [questions, setQuestions] = useState([]);
+	const questionsRef = collection(db, 'questions');
 
-	// 	await updateDoc(
-	// 		usersRef,
-	// 		{
-	// 			subjects: {
-	// 				subjectID: uuidv4(),
-	// 				subjectName: subjectName,
-	// 				subjectCode: subjectCode,
-	// 				studentsEnrolled: [],
-	// 				activities: arrayUnion({ name: 'hi' }),
-	// 				assignments: [],
-	// 				createdAt: created_at,
-	// 			},
-	// 		},
-	// 		{ merge: true }
-	// 	);
-	// };
+	useEffect(() => {
+		const getQuestions = async () => {
+			const data = await getDocs(questionsRef);
+
+			setQuestions(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+		};
+
+		getQuestions();
+	}, []);
+
+	const addQuestion = async (id) => {
+		await addDoc(questionsRef, {
+			subjectID: id,
+			questions: [],
+		});
+	};
 
 	return (
 		<ContextVariable.Provider
@@ -198,6 +198,7 @@ export const ContextProvider = ({ children }) => {
 				handleShow,
 				show,
 				setShow,
+				addQuestion,
 			}}
 		>
 			{children}
