@@ -35,7 +35,7 @@ export const ContextProvider = ({ children }) => {
 	const [userInfo, setUserInfo] = useState([]);
 	const [currentUserUID, setCurrentUserUID] = useState('');
 	const [subjects, setSubjects] = useState([]);
-
+	const [ownerID, setOwnerID] = useState('');
 	const [show, setShow] = useState(false);
 
 	const handleClose = () => setShow(false);
@@ -68,6 +68,7 @@ export const ContextProvider = ({ children }) => {
 			if (currentUser === null) {
 				return true;
 			} else {
+				setOwnerID(currentUser.uid);
 				connectUID(currentUser.uid, currentUser.email);
 				setCurrentUserUID(currentUser.uid);
 				setUser(currentUser);
@@ -158,24 +159,22 @@ export const ContextProvider = ({ children }) => {
 		}
 	};
 
-	const [questions, setQuestions] = useState([]);
-	const questionsRef = collection(db, 'questions');
+	const [questionInfo, setQuestionInfo] = useState({});
 
-	useEffect(() => {
-		const getQuestions = async () => {
-			const data = await getDocs(questionsRef);
+	const addQuestion = async (id, activityName) => {
+		const usersRef = doc(db, 'users', currentUserUID);
 
-			setQuestions(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-		};
-
-		getQuestions();
-	}, []);
-
-	const addQuestion = async (id) => {
-		await addDoc(questionsRef, {
-			subjectID: id,
-			questions: [],
-		});
+		await updateDoc(
+			usersRef,
+			{
+				questions: arrayUnion({
+					activityName: activityName,
+					subjectID: id,
+					name: questionInfo,
+				}),
+			},
+			{ merge: true }
+		);
 	};
 
 	return (
@@ -199,6 +198,7 @@ export const ContextProvider = ({ children }) => {
 				show,
 				setShow,
 				addQuestion,
+				setQuestionInfo,
 			}}
 		>
 			{children}

@@ -49,7 +49,6 @@ const SubjectPage = () => {
 								<Col md={2}>
 									<div className="bg-primary p-3 rounded text-white">
 										<p>Students</p>
-										<p>Assignments</p>
 										<p>Activities</p>
 										<p>Lessons</p>
 										<p>Subject details</p>

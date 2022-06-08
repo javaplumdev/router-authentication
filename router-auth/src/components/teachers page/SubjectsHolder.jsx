@@ -47,10 +47,10 @@ const SubjectsHolder = () => {
 							>
 								<div className="p-3 mt-3 rounded bg-white">
 									<h6>{item.subjectName}</h6>
-									<small>{item.studentsEnrolled.length} Activities</small>
-									<small className="mx-2">
-										{item.studentsEnrolled.length} Assignments
+									<small className="me-2">
+										{item.studentsEnrolled.length} Activities
 									</small>
+
 									<small>{item.studentsEnrolled.length} Enrolled</small>
 								</div>
 							</Link>

@@ -1,5 +1,5 @@
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // Navbar react
 import TeachersNavbar from './TeachersNavbar';
 // React bootstrap
@@ -17,29 +17,10 @@ import { useUserAuth } from '../../context/context-config';
 import { useParams } from 'react-router-dom';
 
 const TaskCreate = () => {
-	// const [questions, setQuestions] = useState([]);
-
-	// const [questionText, setQuestionText] = useState({
-	// 	question: '',
-	// 	a: '',
-	// 	b: '',
-	// 	c: '',
-	// 	d: '',
-	// 	correctAnswer: '',
-	// });
-
-	// const addQuestion = () => {
-	// 	setQuestions((prevState) => {
-	// 		return [...prevState, questionText];
-	// 	});
-	// };
-
-	// const saveQuestion = () => {
-	// 	console.log(questions);
-	// };
-
-	const { addQuestion } = useUserAuth();
+	const { addQuestion, setQuestionInfo } = useUserAuth();
 	const { id } = useParams();
+
+	const [activityName, setActivityName] = useState('');
 
 	return (
 		<>
@@ -48,15 +29,81 @@ const TaskCreate = () => {
 				<Row className="my-4">
 					<Col md={4}>
 						<div className="bg-white p-3 rounded">
-							<p>Details</p>
+							<p>Question details</p>
 							<Button
 								variant="outline-primary"
-								className="me-3"
-								onClick={() => addQuestion(id)}
+								onClick={() => addQuestion(id, activityName)}
 							>
 								Add question
 							</Button>
-							<Button>Save</Button>
+							<Button className="mx-3">Save</Button>
+						</div>
+					</Col>
+					<Col md={8}>
+						<div className="bg-white p-3 rounded">
+							<Form.Control
+								type="text"
+								placeholder="Activity name"
+								className="mb-3"
+								onChange={(e) => setActivityName(e.target.value)}
+							/>
+							<Form.Control
+								as="textarea"
+								placeholder="Leave a question here"
+								style={{ resize: 'none' }}
+							/>
+							<Form.Control
+								type="text"
+								placeholder="A"
+								className="my-3"
+								onChange={(e) =>
+									setQuestionInfo((prevState) => {
+										return {
+											...prevState,
+											a: e.target.value,
+										};
+									})
+								}
+							/>
+							<Form.Control
+								type="text"
+								placeholder="B"
+								className="my-3"
+								onChange={(e) =>
+									setQuestionInfo((prevState) => {
+										return {
+											...prevState,
+											b: e.target.value,
+										};
+									})
+								}
+							/>
+							<Form.Control
+								type="text"
+								placeholder="C"
+								className="my-3"
+								onChange={(e) =>
+									setQuestionInfo((prevState) => {
+										return {
+											...prevState,
+											c: e.target.value,
+										};
+									})
+								}
+							/>
+							<Form.Control
+								type="text"
+								placeholder="D"
+								className="my-3"
+								onChange={(e) =>
+									setQuestionInfo((prevState) => {
+										return {
+											...prevState,
+											d: e.target.value,
+										};
+									})
+								}
+							/>
 						</div>
 					</Col>
 				</Row>
